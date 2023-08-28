@@ -2,6 +2,7 @@ package com.example.contacts
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contacts.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -12,8 +13,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        data class  MyItem(val img: Int, val name: String,val number: String)
 
         val dataList = mutableListOf<MyItem>()
         dataList.add(MyItem(R.drawable.sample_1,"가가가","010-1111-1111"))
@@ -26,5 +25,9 @@ class MainActivity : AppCompatActivity() {
         dataList.add(MyItem(R.drawable.sample_8,"아아아","010-8888-8888"))
         dataList.add(MyItem(R.drawable.sample_9,"자자자","010-9999-9999"))
         dataList.add(MyItem(R.drawable.sample_10,"차차차","010-1212-1212"))
+
+        val adapter = Adapter(dataList)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
 }
