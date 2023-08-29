@@ -1,5 +1,8 @@
 package com.example.contacts
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +35,9 @@ class Adapter(val mItems: MutableList<MyItem>) : RecyclerView.Adapter<RecyclerVi
                 holder.binding.itemImg.setImageResource(item.img)
                 holder.binding.itemName.text = item.name
                 holder.binding.itemPhoneNumber.text = item.number
+                holder.binding.itemPhoneNumber.setOnClickListener{
+                    dialPhone(item.number, holder.itemView.context)
+                }
                 holder.binding.favoriteBtn.setOnClickListener {
                     item.isFavorite = !item.isFavorite
                     notifyItemChanged(position)
@@ -41,6 +47,9 @@ class Adapter(val mItems: MutableList<MyItem>) : RecyclerView.Adapter<RecyclerVi
                 holder.binding.itemFavoriteImg.setImageResource(item.img)
                 holder.binding.itemFavoriteName.text = item.name
                 holder.binding.itemFavoritePhoneNumber.text = item.number
+                holder.binding.itemFavoritePhoneNumber.setOnClickListener{
+                    dialPhone(item.number, holder.itemView.context)
+                }
                 holder.binding.favoriteBtnFill.setOnClickListener {
                     item.isFavorite = false
                     notifyItemChanged(position)
@@ -48,6 +57,15 @@ class Adapter(val mItems: MutableList<MyItem>) : RecyclerView.Adapter<RecyclerVi
             }
         }
     }
+    private fun dialPhone(PhoneNumber: String, context: Context) {
+        val dialIntent = Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.parse("tel:$PhoneNumber")
+        }
+
+        context.startActivity(dialIntent)
+
+    }
+
 
     override fun getItemViewType(position: Int): Int {
         return if (mItems[position].isFavorite) {
